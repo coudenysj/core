@@ -1114,6 +1114,7 @@ class ApiPlatformExtensionTest extends TestCase
     {
         $hasSwagger = null === $configuration || true === $configuration['api_platform']['enable_swagger'] ?? false;
         $hasHydra = null === $configuration || isset($configuration['api_platform']['formats']['jsonld']);
+        $hasHal = null === $configuration || isset($configuration['api_platform']['formats']['jsonhal']);
 
         $containerBuilderProphecy = $this->getPartialContainerBuilderProphecy($configuration);
 
@@ -1423,6 +1424,10 @@ class ApiPlatformExtensionTest extends TestCase
             $definitions[] = 'api_platform.jsonld.encoder';
             $definitions[] = 'api_platform.jsonld.normalizer.item';
             $definitions[] = 'api_platform.jsonld.normalizer.object';
+        }
+
+        if ($hasHal) {
+            $definitions[] = 'api_platform.hal.json_schema.schema_factory';
         }
 
         // Ignore inlined services
